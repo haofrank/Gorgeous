@@ -10,6 +10,7 @@
         "laracasts/flash": "^2.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "overtrue/laravel-ueditor": "~1.0",
         "s-ichikawa/laravel-sendgrid-driver": "^1.2"
     },
     "require-dev": {
