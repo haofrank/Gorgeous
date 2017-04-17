@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
 use App\Http\Requests\StoreQuestionRequest;
-use App\Question;
 use Auth;
+use App\Repositories\QuestionRepostory;
 
 class QuestionsController extends Controller
 {
+    protected $questionRepostory;
+
+    public function __construct(QuestionRepostory $questionRepostory)
+    {
+        $this->middleware('auth')->except(['index','show']);
+        $this->questionRepostory = $questionRepostory;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +23,9 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        // return view('questions.create');
+        $questions = $this->questionRepostory->getQuestionsFeed();
+
+        return view('questions.index',compact('questions'));
     }
 
     /**
@@ -35,15 +44,20 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-public function store(StoreQuestionRequest $request)
+     public function store(StoreQuestionRequest $request)
     {
+        $topics = $this->questionRepostory->normalizeTopic($request->get('topics'));
+
         $data = [
             'title' => $request->get('title'),
             'body' => $request->get('body'),
             'user_id' => Auth::id()
         ];
 
-        $question = Question::create($data);
+        $question = $this->questionRepostory->create($data);
+
+        $question->topics()->attach($topics);
+
         return redirect()->route('questions.show',[$question->id]);
     }
 
@@ -55,7 +69,8 @@ public function store(StoreQuestionRequest $request)
      */
     public function show($id)
     {
-        $question = Question::find($id);
+        $question = $this->questionRepostory->byIdWithTopics($id);
+
         return view('questions.show',compact('question'));
     }
 
@@ -67,7 +82,11 @@ public function store(StoreQuestionRequest $request)
      */
     public function edit($id)
     {
-        //
+        $question = $this->questionRepostory->byId($id );
+        if (Auth::user()->owns($question)) {
+            return view('questions.edit',compact('question'));
+        }
+        return back();
     }
 
     /**
@@ -77,9 +96,19 @@ public function store(StoreQuestionRequest $request)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreQuestionRequest $request, $id)
     {
-        //
+        $question = $this->questionRepostory->byId($id );
+        $topics = $this->questionRepostory->normalizeTopic($request->get('topics'));
+
+        $question->update([
+            'title' => $request->get('title'),
+            'body' => $request->get('body')
+        ]);
+
+        $question->topics()->sync($topics);
+
+        return redirect()->route('questions.show',[$question->id]);
     }
 
     /**
@@ -90,6 +119,13 @@ public function store(StoreQuestionRequest $request)
      */
     public function destroy($id)
     {
-        //
+        $question = $this->questionRepostory->byId($id);
+        if (Auth::user()->owns($question)) {
+
+            $question->delete();
+            return redirect('/');
+        }
+        App::abort(403, 'Forbidden');   //return back();
     }
+
 }
