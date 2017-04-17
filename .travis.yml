@@ -6,3 +6,5 @@ php:
   - hhvm
 env:
   - DB=mysql
+install:
+  - composer install
