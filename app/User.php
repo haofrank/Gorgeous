@@ -27,6 +27,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+    
     /**
      * 判断登陆用户是否为问题所有者
      * @param  Model  $model

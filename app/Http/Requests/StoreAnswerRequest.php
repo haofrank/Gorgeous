@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreQuestionRequest extends FormRequest
+class StoreAnswerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,14 +19,11 @@ class StoreQuestionRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => '标题不能为空',
-            'title.min' => '标题不能少于6个字符',
-            'title.max' => '标题不能大于196个字符',
             'body.required' => '内容不能为空',
-            'body.min' => '内容不能少于20个字符',
-            'topics' => '话题不能为空'
+            'body.min' => '内容不能少于5个字',
         ];
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -35,9 +32,7 @@ class StoreQuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:6|max:196',
-            'body' => 'required|min:20',
-            'topics' => 'required'
+            'body' => 'required|min:12'
         ];
     }
 }

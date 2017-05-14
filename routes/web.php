@@ -21,6 +21,7 @@ Route::name('email.verify')->get('email/verify/{token}','EmailController@verify'
 
 Route::resource('questions', 'QuestionsController');
 
+Route::post('/questions/{question}/answer', 'AnswersController@store');
 
 // Route::get('/emailTest', function()
 // {

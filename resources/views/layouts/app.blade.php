@@ -20,6 +20,7 @@
         ]) !!};
     </script>
 </head>
+@include('vendor.ueditor.assets')
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">

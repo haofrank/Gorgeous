@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 // use Illuminate\Http\Request;
 use App\Http\Requests\StoreQuestionRequest;
 use Auth;
-use App\Repositories\QuestionRepostory;
+use App\Repositories\QuestionRepository;
 
 class QuestionsController extends Controller
 {
-    protected $questionRepostory;
+    protected $questionRepository;
 
-    public function __construct(QuestionRepostory $questionRepostory)
+    public function __construct(QuestionRepository $questionRepository)
     {
         $this->middleware('auth')->except(['index','show']);
-        $this->questionRepostory = $questionRepostory;
+        $this->questionRepository = $questionRepository;
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        $questions = $this->questionRepostory->getQuestionsFeed();
+        $questions = $this->questionRepository->getQuestionsFeed();
 
         return view('questions.index',compact('questions'));
     }
@@ -46,7 +46,7 @@ class QuestionsController extends Controller
      */
      public function store(StoreQuestionRequest $request)
     {
-        $topics = $this->questionRepostory->normalizeTopic($request->get('topics'));
+        $topics = $this->questionRepository->normalizeTopic($request->get('topics'));
 
         $data = [
             'title' => $request->get('title'),
@@ -54,7 +54,7 @@ class QuestionsController extends Controller
             'user_id' => Auth::id()
         ];
 
-        $question = $this->questionRepostory->create($data);
+        $question = $this->questionRepository->create($data);
 
         $question->topics()->attach($topics);
 
@@ -69,7 +69,7 @@ class QuestionsController extends Controller
      */
     public function show($id)
     {
-        $question = $this->questionRepostory->byIdWithTopics($id);
+        $question = $this->questionRepository->byIdWithTopicsAndAnswers($id);
 
         return view('questions.show',compact('question'));
     }
@@ -82,7 +82,7 @@ class QuestionsController extends Controller
      */
     public function edit($id)
     {
-        $question = $this->questionRepostory->byId($id );
+        $question = $this->questionRepository->byId($id );
         if (Auth::user()->owns($question)) {
             return view('questions.edit',compact('question'));
         }
@@ -98,8 +98,8 @@ class QuestionsController extends Controller
      */
     public function update(StoreQuestionRequest $request, $id)
     {
-        $question = $this->questionRepostory->byId($id );
-        $topics = $this->questionRepostory->normalizeTopic($request->get('topics'));
+        $question = $this->questionRepository->byId($id );
+        $topics = $this->questionRepository->normalizeTopic($request->get('topics'));
 
         $question->update([
             'title' => $request->get('title'),
@@ -119,7 +119,7 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        $question = $this->questionRepostory->byId($id);
+        $question = $this->questionRepository->byId($id);
         if (Auth::user()->owns($question)) {
 
             $question->delete();

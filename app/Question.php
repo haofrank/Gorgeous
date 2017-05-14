@@ -18,6 +18,11 @@ class Question extends Model
          return $this->belongsTo(User::class);
     }
 
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
     /**
      * 限制查询不被隐藏的问题。
      *
@@ -27,4 +32,6 @@ class Question extends Model
     {
         return $query->where('is_hidden','F');
     }
+
+
 }
