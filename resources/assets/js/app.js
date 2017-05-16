@@ -13,7 +13,11 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// import vueSource from 'vue-resource';
+// Vue.use(vueSource);
+
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('question-follow-button', require('./components/QuestionFollowButton.vue'));
 
 const app = new Vue({
     el: '#app'
