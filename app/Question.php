@@ -23,6 +23,12 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'user_question')->withTimestamps();
+    }
+
+
     /**
      * 限制查询不被隐藏的问题。
      *

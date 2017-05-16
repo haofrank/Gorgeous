@@ -32,7 +32,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Answer::class);
     }
-    
+
     /**
      * 判断登陆用户是否为问题所有者
      * @param  Model  $model
@@ -41,5 +41,20 @@ class User extends Authenticatable
     public function owns(Model $model)
     {
         return $this->id == $model->user_id;
+    }
+
+    public function follows()
+    {
+        return $this->belongsToMany(Question::class, 'user_question')->withTimestamps();
+    }
+
+    public function followThis($question)
+    {
+        return $this->follows()->toggle($question);
+    }
+
+    public function followed($question)
+    {
+        return !!$this->follows()->where('question_id', $question)->count();
     }
 }
