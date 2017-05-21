@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use App\Notifications\NewUserFollowNotification;
+use App\Notifications\NewUserFollowNotification;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Auth;

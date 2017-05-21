@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Auth;
 
 class NewUserFollowNotification extends Notification
 {
@@ -29,7 +30,7 @@ class NewUserFollowNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database','mail'];
     }
 
     /**
@@ -41,9 +42,16 @@ class NewUserFollowNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line(Auth::guard('api')->user()->name.'关注了你.')
+                    ->action('查看详情', url('/notifications'))
+                    ->line('感谢使用Gorgeous!');
+    }
+
+    public function toDatabase($notifiable)
+    {
+        return [
+            'name' => Auth::guard('api')->user()->name,
+        ];
     }
 
     /**
