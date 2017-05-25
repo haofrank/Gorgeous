@@ -19,7 +19,12 @@
             'csrfToken' => csrf_token(),
         ]) !!};
         Laravel.apiToken = "{{ Auth::check() ? 'Bearer '.Auth::user()->api_token : 'Bearer ' }}";
-
+        @if(Auth::check())
+            window.Gorgeous = {
+                name:"{{Auth::user()->name}}",
+                avatar:"{{Auth::user()->avatar}}"
+        }
+        @endif
     </script>
 </head>
 @include('vendor.ueditor.assets')
