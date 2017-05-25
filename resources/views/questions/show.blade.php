@@ -33,9 +33,9 @@
                     <h2>{{ $question->followers_count }}</h2>
                     <span>关注者</span>
                 </div>
-                <div class="panel-body" >
-                    <question-follow-button question="{{$question->id}}" ></question-follow-button>
-                    <a href="#editor" class="btn btn-primary">撰写答案</a>
+                <div class="panel-body">
+                    <question-follow-button question="{{$question->id}}"></question-follow-button>
+                    <a href="#editor" class="btn btn-primary pull-right">撰写答案</a>
                 </div>
             </div>
         </div>
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <user-follow-button user="{{$question->user_id}}"></user-follow-button>
-                    <a href="#editor" class="btn btn-primary">发送私信</a>
+                    <send-message user="{{$question->user_id}}"></send-message>
                 </div>
             </div>
         </div>
