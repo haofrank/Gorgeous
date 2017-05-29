@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@include('vendor.ueditor.assets')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -38,7 +37,6 @@
 
                             <button type="submit" class="btn btn-success pull-right">发布问题</button>
                         </form>
-
                     </div>
             </div>
         </div>

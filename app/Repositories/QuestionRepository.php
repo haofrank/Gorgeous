@@ -8,12 +8,12 @@ use App\Topic;
  * Class QuestionRepostory
  * @package App\Repositories
  */
-class QuestionRepostory
+class QuestionRepository
 {
 
-    public function byIdWithTopics($id)
+    public function byIdWithTopicsAndAnswers($id)
     {
-        return  Question::where('id',$id)->with('topics')->first();
+        return  Question::where('id',$id)->with(['topics','answers'])->first();
     }
 
     public function create(array $attributes)
@@ -41,5 +41,12 @@ class QuestionRepostory
     public function getQuestionsFeed()
     {
         return Question::published()->latest('updated_at')->with('user')->get();
+    }
+
+    public function getQuestionCommentsById($id)
+    {
+        $question = Question::with('comments', 'comments.user')->where('id', $id)->first();
+        
+        return $question->comments;
     }
 }

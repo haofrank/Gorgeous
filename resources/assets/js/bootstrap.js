@@ -10,7 +10,7 @@ window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
 
 require('bootstrap-sass');
-require('./select2.min'); 
+require('./select2.min');
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -19,6 +19,7 @@ require('./select2.min');
  */
 
 window.Vue = require('vue');
+require('vue-resource');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -28,10 +29,17 @@ window.Vue = require('vue');
 
 window.axios = require('axios');
 
-window.axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': window.Laravel.csrfToken,
-    'X-Requested-With': 'XMLHttpRequest'
-};
+Vue.http.interceptors.push((request, next) => {
+    request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
+    request.headers.set('Authorization', Laravel.apiToken);
+
+    next();
+});
+// window.axios.defaults.headers.common = {
+//     'X-CSRF-TOKEN': window.Laravel.csrfToken,
+//     'Authorization': window.Laravel.apiToken,
+//     'X-Requested-With': 'XMLHttpRequest'
+// };
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

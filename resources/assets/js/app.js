@@ -13,7 +13,15 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// import vueSource from 'vue-resource';
+// Vue.use(vueSource);
+
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('question-follow-button', require('./components/QuestionFollowButton.vue'));
+Vue.component('user-follow-button', require('./components/UserFollowButton.vue'));
+Vue.component('user-vote-button', require('./components/UserVoteButton.vue'));
+Vue.component('send-message', require('./components/SendMessage.vue'));
+Vue.component('comments', require('./components/Comments.vue'));
 
 const app = new Vue({
     el: '#app'
