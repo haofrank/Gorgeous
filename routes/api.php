@@ -33,5 +33,3 @@ Route::post('/message/store', 'MessagesController@store');
 Route::get('answer/{id}/comments','CommentsController@answer');
 Route::get('question/{id}/comments','CommentsController@question');
 Route::post('comment','CommentsController@store');
-
-  
