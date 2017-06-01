@@ -12223,7 +12223,6 @@ module.exports = function spread(callback) {
             var _this = this;
 
             this.$http.post('/api/comment', { 'type': this.type, 'model': this.model, 'body': this.body }).then(function (response) {
-                // console.log(response.date);
                 var comment = {
                     user: {
                         name: Gorgeous.name,

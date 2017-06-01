@@ -14,12 +14,13 @@ class MessageRepository
     public function getAllMessages()
     {
         return Message::where('to_user_id', user()->id)
-            ->orWhere('from_user_id', user()->id)
-            ->with(['fromUser' => function ($query) {
-                return $query->select(['id', 'name', 'avatar']);
-            }, 'toUser'        => function ($query) {
-                return $query->select(['id', 'name', 'avatar']);
-            }])->latest()->get();
+                        ->orWhere('from_user_id', user()->id)
+                        ->with(['fromUser' => function ($query) {
+                                return $query->select(['id', 'name', 'avatar']);
+                            }, 'toUser'        => function ($query) {
+                                return $query->select(['id', 'name', 'avatar']);
+                            }])
+                        ->latest()->get();
     }
 
     /**
@@ -28,11 +29,13 @@ class MessageRepository
      */
     public function getDialogMessagesBy($dialogId)
     {
-        return Message::where('dialog_id',$dialogId)->with(['fromUser' => function ($query) {
-            return $query->select(['id','name','avatar']);
-        },'toUser' => function ($query) {
-            return $query->select(['id','name','avatar']);
-        }])->latest()->get();
+        return Message::where('dialog_id',$dialogId)
+                        ->with(['fromUser' => function ($query) {
+                                return $query->select(['id','name','avatar']);
+                            },'toUser' => function ($query) {
+                                return $query->select(['id','name','avatar']);
+                            }])
+                        ->latest()->get();
     }
 
     /**

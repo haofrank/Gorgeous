@@ -90,6 +90,6 @@ class User extends Authenticatable
 
     public function messages()
     {
-        return $this->belongsToMany(Message::class,'to_user_id');
+        return $this->hasMany(Message::class, 'to_user_id');
     }
 }
