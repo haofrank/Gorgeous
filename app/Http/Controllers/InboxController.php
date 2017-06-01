@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\MessageRepository;
-use Auth;
-use App\Message;
+use App\Notifications\NewMessageNotification;
 
 class InboxController extends Controller
 {
@@ -35,7 +34,7 @@ class InboxController extends Controller
     {
         $message = $this->message->getSingleMessageBy($dialogId);
         $toUserId = $message->from_user_id === user()->id ? $message->to_user_id : $message->from_user_id;
-        
+
         $newMessage = $this->message->create([
             'from_user_id' => user()->id,
             'to_user_id' => $toUserId,
@@ -43,7 +42,7 @@ class InboxController extends Controller
             'dialog_id' => $dialogId
         ]);
 
-        // $newMessage->toUser->notify(new NewMessageNotification($newMessage));
+        $newMessage->toUser->notify(new NewMessageNotification($newMessage));
 
         return back();
     }

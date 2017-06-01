@@ -67,6 +67,8 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ route('notifications') }}">通知</a></li>
+                                    <li><a href="{{ route('inbox') }}">私信</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
