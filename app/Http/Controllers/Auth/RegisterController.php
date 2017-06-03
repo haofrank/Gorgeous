@@ -70,6 +70,7 @@ class RegisterController extends Controller
             'confirmation_token' => str_random(40),
             'password' => bcrypt($data['password']),
             'api_token' => str_random(60),
+            'settings' => ['city' => '','bio' => ''],
         ]);
 
         $this->sendVerifyEmailTo($user);

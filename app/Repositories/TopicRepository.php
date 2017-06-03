@@ -1,7 +1,7 @@
 <?php
 namespace app\Repositories;
 
-use Request;
+use Illuminate\Http\Request;
 use App\Topic;
 
 class TopicRepository

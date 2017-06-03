@@ -34,6 +34,12 @@ Route::post('inbox/{dialogId}/store','InboxController@store');
 
 Route::get('avater','UserController@avater');
 Route::post('avatar','UserController@changeAvater');
+
+Route::get('password', 'PasswordController@password');
+Route::post('password/update', 'PasswordController@update');
+
+Route::get('setting','SettingController@index')->name('setting');
+Route::post('setting','SettingController@storeInfo');
 // Route::get('/emailTest', function()
 // {
 //     // $email = new App\Mail\EmailTest();
