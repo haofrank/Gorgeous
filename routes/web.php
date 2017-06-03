@@ -31,6 +31,9 @@ Route::get('notifications/{notification}','NotificationsController@show');
 Route::get('inbox', 'InboxController@index')->name('inbox');
 Route::get('inbox/{dialogId}','InboxController@show');
 Route::post('inbox/{dialogId}/store','InboxController@store');
+
+Route::get('avater','UserController@avater');
+Route::post('avatar','UserController@changeAvater');
 // Route::get('/emailTest', function()
 // {
 //     // $email = new App\Mail\EmailTest();
