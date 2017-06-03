@@ -32,7 +32,7 @@ Route::get('inbox', 'InboxController@index')->name('inbox');
 Route::get('inbox/{dialogId}','InboxController@show');
 Route::post('inbox/{dialogId}/store','InboxController@store');
 
-Route::get('avater','UserController@avater');
+Route::get('avater','UserController@avater')->name('avater');
 Route::post('avatar','UserController@changeAvater');
 
 Route::get('password', 'PasswordController@password');
